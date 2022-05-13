@@ -1,0 +1,257 @@
+﻿<Window x:Class="WpfApplicationEntity.Forms.Main.SecurWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApplicationEntity.Forms.Main"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        HorizontalAlignment="Center" Background="White" WindowStartupLocation="CenterScreen"
+        Title="Приложение вахтера" Height="720" Width="1280">
+    <Grid>
+        <TabControl TabStripPlacement="Left" x:Name="tabControl">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TabItem}">
+                                <Grid>
+                                    <Border 
+                                    Margin="0,0,-4,0" 
+                                    Background="White"
+                                    BorderBrush="White" 
+                                    BorderThickness="1,1,1,1" 
+                                    CornerRadius="2,12,0,0" >
+                                        <ContentPresenter x:Name="ContentSite"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"
+                                      ContentSource="Header"
+                                      Margin="12,2,12,2"
+                                      RecognizesAccessKey="True"/>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground" Value="#329A93"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type TabItem}">
+                                        <Grid>
+                                            <Border 
+                                            Margin="0,0,-4,0"                                             
+                                            Background="#329A93"
+                                            BorderBrush="#329A93" 
+                                            BorderThickness="1,1,1,1" 
+                                            CornerRadius="2,12,0,0" >
+                                                <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"
+                                              Margin="12,2,12,2"
+                                              RecognizesAccessKey="True"/>
+                                            </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.ItemContainerStyle>
+            <TabItem x:Name="logo" VerticalAlignment="Top" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Focusable="False" Background="White">
+                <TabItem.Header>
+                    <StackPanel>
+                        <Image Source="/Hostel;component/Image/Logo2.png" Focusable="False" Width="240"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem x:Name="l" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Height="28" Focusable="False" Background="White">
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock Text="В Ы Х О Д Н Ы Е" Foreground="#329A93"  HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="{StaticResource IBMPlexSansBold}" FontSize="16" Margin="0,0,90,0"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem x:Name="weekendTab" Background="White" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TabItem.Header >
+                    <Border>
+                        <Grid Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="46*" />
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="41*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="24" Source="/Hostel;component/Image/Pen.png" Margin="12,0" />
+                            <TextBlock Grid.Column="1" Foreground="#FF4B4B4B" Text="Режим просмотра" Width="183"  Margin="0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </Border>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="175"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid AutoGenerateColumns="False" x:Name="OutGrid" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Foreground="#329A93" SelectionMode="Extended" FontSize="14" CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FontFamily="{StaticResource IBMPlexSansMedium}">
+                            <DataGrid.ToolTip>
+                                <ToolTip Background="#f1f2f7" Foreground="Black" Content="Для фиксации присутствия кликните правой кнопкной мыши."/>
+                            </DataGrid.ToolTip>
+                            <DataGrid.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem Header="Отметить о выезде" Click="MenuItem_Click"/>
+                                    <MenuItem Header="Отметить о приезде" Click="MenuItem_Click_1"/>
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id}" Header="Id" Visibility="Hidden"/>
+                                <DataGridTextColumn Binding="{Binding Departure_Date, StringFormat=dd.MM.yyyy}" Header="Дата выезда"/>
+                                <DataGridTextColumn Binding="{Binding Departure_Time}" Header="Время приезда"/>
+                                <DataGridTextColumn Binding="{Binding Arrival_Date, StringFormat=dd.MM.yyyy}" Header="Дата прибытия"/>
+                                <DataGridTextColumn Binding="{Binding Arrival_Time}" Header="Время прибытия"/>
+                                <DataGridTextColumn Binding="{Binding Adress}" Header="Адрес"/>
+                                <DataGridTextColumn Binding="{Binding Student}" Header="Студент"/>
+                                <DataGridTextColumn Binding="{Binding StringIsDepartured}" Header="Присутствие"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <GroupBox FontFamily="{StaticResource IBMPlexSansBold}" Background="White" Foreground="#FF329A93">
+                            <Grid>
+                                <Grid.RowDefinitions >
+                                    <RowDefinition Height="175"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="175"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <GroupBox  Grid.Row="0" Grid.Column="1" FontSize="16" Header="Поиск по фамилии">
+                                        <TextBox x:Name="SurNameSearch" Height="40" VerticalAlignment="Center" TextChanged="SurNameSearch_TextChanged"></TextBox>
+                                    </GroupBox>
+                                    <!--<GroupBox  Grid.Row="0" Grid.Column="2" FontSize="16" Header="Поиск по комнате">
+                                        <TextBox Text="В разработке" x:Name="RoomSearch" Height="40" VerticalAlignment="Center" TextChanged="RoomSearch_TextChanged"></TextBox>
+                                    </GroupBox>-->
+                                    <GroupBox  Grid.Row="0" Grid.Column="2" FontSize="16" Header="Фильтр по присутствию">
+                                        <StackPanel>
+                                            <RadioButton x:Name="DepRadio" Content="Приехал" Margin="5,5,5,5" Foreground="#329A93" FontFamily="{StaticResource IBMPlexSansBold}" Checked="DepRadio_Checked"></RadioButton>
+                                            <RadioButton x:Name="ArrRadio" Content="Выехал" Margin="5,5,5,5" Foreground="#329A93" FontFamily="{StaticResource IBMPlexSansBold}" Checked="ArrRadio_Checked"></RadioButton>
+                                            <RadioButton x:Name="NullRadio" Content="Не отмечен" Margin="5,5,5,5" Foreground="#329A93" FontFamily="{StaticResource IBMPlexSansBold}" Checked="NullRadio_Checked"></RadioButton>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <GroupBox Grid.Row="0" Grid.Column="3">
+                                        <StackPanel Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                                            <Button Content="Отменить" FontSize="16" Margin="5,5,5,5" Height="40" Click="Button_Click"  FontFamily="{StaticResource IBMPlexSansBold}" Background="#FF329A93" Foreground="White"></Button>
+                                            <Button x:Name="reportOutsButton" Content="Сформировать отчет" FontSize="16" Height="40" Margin="3" Padding="3" Click="reportoOutsButton_Click" FontFamily="{StaticResource IBMPlexSansBold}" Background="#FF329A93" Foreground="White"></Button>
+                                        </StackPanel>
+                                    </GroupBox>
+                                    <Calendar xmlns:sys="clr-namespace:System;assembly=mscorlib" Grid.Column="0" Grid.Row="0" x:Name="calendar1" FirstDayOfWeek="Monday"  SelectionMode="SingleRange" SelectedDatesChanged="calendar1_SelectedDatesChanged" FontFamily="{StaticResource IBMPlexSansBold}" Background="White" Foreground="#FF329A93"/>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="ll" VerticalAlignment="Top" HorizontalAlignment="Left" Width="240" Height="28" Focusable="False" Background="White">
+                <TabItem.Header>
+                    <StackPanel>
+                        <TextBlock Text="Д Л И Т Е Л Ь Н Ы Й" Foreground="#329A93"  HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="{StaticResource IBMPlexSansBold}" FontSize="16" Margin="0,0,60,0"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem x:Name="longTab" Background="White" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TabItem.Header >
+                    <Border  >
+                        <Grid Margin="0,0,0,0">
+                            <Grid.ColumnDefinitions >
+                                <ColumnDefinition Width="48"/>
+                                <ColumnDefinition Width="46*" />
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="41*"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Height="24"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="24" Source="/Hostel;component/Image/Pen.png" Margin="12,0" />
+                            <TextBlock Grid.Column="1" Foreground="#FF4B4B4B" Text="Режим просмотра" Width="183"  Margin="0,4" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="3"/>
+                        </Grid>
+                    </Border>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="175"/>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <DataGrid AutoGenerateColumns="False" x:Name="LongGrid" IsReadOnly="True" Grid.Column="0" Grid.Row="1" Foreground="#329A93" SelectionMode="Extended" FontSize="14" CanUserAddRows="False" CanUserResizeColumns="False" CanUserResizeRows="False" FontFamily="{StaticResource IBMPlexSansMedium}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Id}" Header="Id" Visibility="Hidden"/>
+                                <DataGridTextColumn Binding="{Binding Departure_Date, StringFormat=dd.MM.yyyy}" Header="Дата выезда"/>
+                                <DataGridTextColumn Binding="{Binding Departure_Time}" Header="Время приезда"/>
+                                <DataGridTextColumn Binding="{Binding Arrival_Date, StringFormat=dd.MM.yyyy}" Header="Дата прибытия"/>
+                                <DataGridTextColumn Binding="{Binding Arrival_Time}" Header="Время прибытия"/>
+                                <DataGridTextColumn Binding="{Binding Student}" Header="Студент"/>
+                                <!--<DataGridTextColumn Binding="{Binding Reason}" Header="Причина отсуствия"/>-->
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <GroupBox FontFamily="{StaticResource IBMPlexSansBold}" Background="White" Foreground="#FF329A93">
+                            <Grid>
+                                <Grid.RowDefinitions >
+                                    <RowDefinition Height="175"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions >
+                                        <RowDefinition Height="175"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <GroupBox  Grid.Row="0" Grid.Column="1" FontSize="16" Header="Поиск по фамилии">
+                                        <TextBox x:Name="LSurNameSearch" Height="40" VerticalAlignment="Center" TextChanged="LSurNameSearch_TextChanged"></TextBox>
+                                    </GroupBox>
+                                    <!--<GroupBox  Grid.Row="0" Grid.Column="2" FontSize="16" Header="Поиск по комнате">
+                                        <TextBox Text="В разработке" x:Name="RoomSearch" Height="40" VerticalAlignment="Center" TextChanged="RoomSearch_TextChanged"></TextBox>
+                                    </GroupBox>-->
+                                    <!--<GroupBox  Grid.Row="0" Grid.Column="2" FontSize="16" Header="Фильтр по причине отсуствия">
+                                        <StackPanel>
+                                            <RadioButton x:Name="Reason1Radio" Content="Практика" Margin="5,5,5,5" Foreground="#329A93" FontFamily="{StaticResource IBMPlexSansBold}" Checked="Reason1Radio_Checked"></RadioButton>
+                                            <RadioButton x:Name="Reason2Radio" Content="Академический отпуск" Margin="5,5,5,5" Foreground="#329A93" FontFamily="{StaticResource IBMPlexSansBold}" Checked="Reason2Radio_Checked"></RadioButton>
+                                            <RadioButton x:Name="Reason3Radio" Content="Справка по болезни" Margin="5,5,5,5" Foreground="#329A93" FontFamily="{StaticResource IBMPlexSansBold}" Checked="Reason3Radio_Checked"></RadioButton>
+                                            <RadioButton x:Name="Reason4Radio" Content="Семейные обстоятельства" Margin="5,5,5,5" Foreground="#329A93" FontFamily="{StaticResource IBMPlexSansBold}" Checked="reason4Radio_Checked"></RadioButton>
+                                        </StackPanel>
+                                    </GroupBox>-->
+                                    <GroupBox Grid.Row="0" Grid.Column="3">
+                                        <StackPanel Grid.Row="0" Grid.Column="4" VerticalAlignment="Center">
+                                            <Button Content="Отменить" FontSize="16" Margin="5,5,5,5" Height="40" Click="Button_Click_1"  FontFamily="{StaticResource IBMPlexSansBold}" Background="#FF329A93" Foreground="White"></Button>
+                                             </StackPanel>
+                                    </GroupBox>
+                                    <Calendar Foreground="#329A93" Background="White" xmlns:sys="clr-namespace:System;assembly=mscorlib" x:Name="calendar" FirstDayOfWeek="Monday"  SelectionMode="SingleDate" SelectedDatesChanged="calendar_SelectedDatesChanged"/>
+                                </Grid>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem.Content>
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Window>
+
